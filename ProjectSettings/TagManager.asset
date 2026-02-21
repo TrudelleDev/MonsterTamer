@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Collision
+  - Water
+  - UI
+  - Trigger
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: World_BelowPlayer
+    uniqueID: 2167755339
+    locked: 0
+  - name: World
+    uniqueID: 1165534729
+    locked: 0
+  - name: World_AbovePlayer
+    uniqueID: 80569607
+    locked: 0
+  - name: UI
+    uniqueID: 2915075001
+    locked: 0

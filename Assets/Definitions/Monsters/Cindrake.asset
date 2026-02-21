@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de7b3c62737bd2940a7d695867a25ac0, type: 3}
+  m_Name: Cindrake
+  m_EditorClassIdentifier: 
+  displayName: Cindrake
+  codexNumber: 1
+  typing:
+    firstType: {fileID: 11400000, guid: e9d851052d965b048912a5a2289d1133, type: 2}
+    secondType: {fileID: 0}
+  baseStats:
+    healthPoint: 39
+    attack: 52
+    defense: 43
+    specialAttack: 60
+    specialDefense: 50
+    speed: 65
+  possibleNatures: {fileID: 11400000, guid: 7d9e871d70f92ed48925b4ab36398143, type: 2}
+  levelUpMoves:
+  - level: 1
+    moveDefinition: {fileID: 11400000, guid: 9e372a24d65448c41a319ef4adcc2f2d, type: 2}
+  sprites:
+    frontSprite: {fileID: 404585501, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
+    backSprite: {fileID: 404585501, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
+    menuSprite: {fileID: -961135705, guid: e18f298d51fab3f4b95e6f8df790ce1a, type: 3}

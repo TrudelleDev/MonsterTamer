@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6623f8a0883404ca80cb65221da67e, type: 3}
+  m_Name: DamageEffect
+  m_EditorClassIdentifier: 
+  effectivenessSounds:
+    normalSound: {fileID: 8300000, guid: a5e2d8c2054d39c4ab96f153d0315178, type: 3}
+    superEffectiveSound: {fileID: 8300000, guid: f9cf4cdcda60a5e41a40470036b59d54, type: 3}
+    notVeryEffectiveSound: {fileID: 8300000, guid: 8f8696651f8b9ef46b5018218ba22b91, type: 3}
+  preHitDelay: 0.5

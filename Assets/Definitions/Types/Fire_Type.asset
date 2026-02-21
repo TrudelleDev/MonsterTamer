@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 170287bc9c5e6b343a557bf8d1ea1c38, type: 3}
+  m_Name: Fire_Type
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 9433d63425c07ce46a42198f59710a9c, type: 3}
+  effectivenessGroups:
+    superEffectiveAgainst:
+    - {fileID: 11400000, guid: dce2d6a87187447458f416b8ca1fd749, type: 2}
+    - {fileID: 11400000, guid: f7535478357dcc6459a3d1581479bd8a, type: 2}
+    - {fileID: 11400000, guid: c76aa062631ddd44981d288cabe499c2, type: 2}
+    - {fileID: 11400000, guid: 39263d73c057bfc4c8b086c3a6aa8b8e, type: 2}
+    notEffectiveAgainst:
+    - {fileID: 11400000}
+    - {fileID: 11400000, guid: 1859622edcd774e43923a56c4074437b, type: 2}
+    - {fileID: 11400000, guid: 969d227b3ad747a4e9447b598c93a2b0, type: 2}
+    - {fileID: 11400000, guid: 29006a2659a556a4a8cbb7892f27f3bb, type: 2}
+    immuneAgainst: []

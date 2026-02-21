@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 699602f04915b9f4596a5a9a33486432, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: 
+  displayName: Red
+  battleSprite: {fileID: 385920086, guid: 4f72e175e5412cd47b1d97b9bf52fc3d, type: 3}
+  partyDefinition: {fileID: 11400000, guid: 92c1c7b411c8ae64ca059b0e15a1da80, type: 2}
+  inventoryDefinition: {fileID: 11400000, guid: dc02298ea92a46e44992c146e5fa6e1c, type: 2}
+  defaultInteractionDialogue: 
+  postEventDialogue: 
+  postBattleClosingDialogue: 

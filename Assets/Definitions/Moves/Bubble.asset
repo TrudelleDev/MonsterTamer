@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8faac129f641cdb4a8297f0e296fc9a4, type: 3}
+  m_Name: Bubble
+  m_EditorClassIdentifier: 
+  displayName: Bubble
+  moveInfo:
+    power: 40
+    accuracy: 100
+    powerPoint: 30
+  classification:
+    typeDefinition: {fileID: 11400000, guid: 1859622edcd774e43923a56c4074437b, type: 2}
+    category: 1
+  moveEffect: {fileID: 11400000, guid: fab21e12a6fc2224396406094f0f9bc3, type: 2}
+  effect: "A spray of bubbles hits the foe. It may lower the foe\u2019s Speed stat."
+  sound: {fileID: 8300000, guid: 92e8593513c2ffd4db42689b2d25268b, type: 3}
