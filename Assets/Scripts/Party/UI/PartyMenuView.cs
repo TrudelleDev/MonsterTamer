@@ -37,10 +37,7 @@ namespace MonsterTamer.Party.UI
             dialogueText.text = SelectMonsterMessage;
         }
 
-        private void OnDisable()
-        {
-            partySlotController.Selected -= OnSlotRequested;
-        }
+        private void OnDisable() => partySlotController.Selected -= OnSlotRequested;
 
         internal void Refresh() => menuSlotManager.Refresh();
         internal void ShowChoosePrompt() => dialogueText.text = SelectMonsterMessage;
@@ -55,6 +52,12 @@ namespace MonsterTamer.Party.UI
             }
 
             dialogueText.text = SwapStartMessage;
+        }
+
+        internal void ShowSelectionPrompt()
+        {
+            ClearSwapLock();
+            ShowChoosePrompt();
         }
 
         internal void ClearSwapLock()
@@ -73,7 +76,6 @@ namespace MonsterTamer.Party.UI
             if (!menuButton.TryGetComponent(out PartyMenuSlot slot) ||
                 slot.BoundMonster == null) return;
 
-            // Only change text to "Choose Action" if we aren't swapping
             if (lockedSwapButton == null)
             {
                 dialogueText.text = ChooseActionMessage;

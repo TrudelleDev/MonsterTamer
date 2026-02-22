@@ -49,7 +49,7 @@ namespace MonsterTamer.Inventory.UI.InventoryOptions
             if (currentItem == null) return;
 
             // Start item selection flow
-            partyMenuPresenter.SetMode(PartySelectionMode.UseItem);
+           
             partyMenuPresenter.ItemTargetRequested += OnItemTargetSelected;
 
             ViewManager.Instance.Show<PartyMenuView>();

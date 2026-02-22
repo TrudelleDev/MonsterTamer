@@ -32,9 +32,14 @@ namespace MonsterTamer.Party.UI.PartyOptions
         {
             partyPresenter.StartSwap();
             ViewManager.Instance.Close<PartyMenuOptionsView>();
-        } 
+        }
+
+        private void OnBackRequested()
+        {
+            partyPresenter.ResetToSelection();
+            ViewManager.Instance.Close<PartyMenuOptionsView>();
+        }
 
         private void OnInfoRequested() => ViewManager.Instance.Show<SummaryView>();
-        private void OnBackRequested() => ViewManager.Instance.Close<PartyMenuOptionsView>();
     }
 }

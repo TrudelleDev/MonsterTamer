@@ -15,6 +15,7 @@ namespace MonsterTamer.Party.UI.PartyOptions
         [Title("Party Option View Settings")]
         [SerializeField, Required] private MenuButton infoButton;
         [SerializeField, Required] private MenuButton swapButton;
+        [SerializeField, Required] private MenuButton closeButton;
 
         internal event Action SwapRequested;
         internal event Action InfoRequested;
@@ -23,15 +24,18 @@ namespace MonsterTamer.Party.UI.PartyOptions
         {
             infoButton.Selected += OnInfoRequested;
             swapButton.Selected += OnSwapRequested;
+            closeButton.Selected += OnBackRequested;
         }
 
         private void OnDisable()
         {
             infoButton.Selected -= OnInfoRequested;
             swapButton.Selected -= OnSwapRequested;
+            closeButton.Selected -= OnBackRequested;
         }
 
         private void OnInfoRequested() => InfoRequested?.Invoke();
         private void OnSwapRequested() => SwapRequested?.Invoke();
+        private void OnBackRequested() => CloseRequest(playSound: false);
     }
 }

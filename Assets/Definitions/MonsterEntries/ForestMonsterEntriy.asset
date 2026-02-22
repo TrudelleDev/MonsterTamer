@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - definition: {fileID: 11400000, guid: fcb1a2183ece20646babb01d4dd0a216, type: 2}
-    minLevel: 5
-    maxLevel: 5
+    minLevel: 30
+    maxLevel: 30
     encounterRate: 50

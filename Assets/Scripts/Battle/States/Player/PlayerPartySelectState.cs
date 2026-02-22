@@ -36,9 +36,9 @@ namespace MonsterTamer.Battle.States.Player
             partyPresenter = partyView.GetComponent<PartyMenuPresenter>();
             optionsView = ViewManager.Instance.Get<PartyMenuOptionsView>();
 
-            partyPresenter.IsForced = this.isForced;
+            partyPresenter.IsBattleSwap = this.isForced;
 
-            partyPresenter.SetMode(PartySelectionMode.Battle);
+            partyPresenter.StartBattleSelection(isForced);
 
             if (!isForced)
             {

@@ -1,18 +1,18 @@
-﻿using MonsterTamer.Characters.Core;
+﻿using System;
+using MonsterTamer.Characters.Core;
 using MonsterTamer.Monsters;
 using MonsterTamer.Party.Enums;
 using MonsterTamer.Party.UI.PartyOptions;
 using MonsterTamer.Party.UI.Slots;
 using MonsterTamer.Views;
 using Sirenix.OdinInspector;
-using System;
 using UnityEngine;
 
 namespace MonsterTamer.Party.UI
 {
     /// <summary>
-    /// Manages party selection logic, handles slot input, swaps, and item targeting.
-    /// Controls whether the menu can close based on current mode and state.
+    /// Manages party menu logic, translating UI inputs into PartyManager actions.
+    /// Coordinates states (Selection, Swap, Item) and enforces Battle/Overworld rules.
     /// </summary>
     [DisallowMultipleComponent]
     internal sealed class PartyMenuPresenter : MonoBehaviour
@@ -20,114 +20,125 @@ namespace MonsterTamer.Party.UI
         [SerializeField, Required] private PartyMenuView partyMenuView;
         [SerializeField, Required] private Character player;
 
-        private PartySelectionMode mode;
-        private bool isSwapping;
+        private PartyMenuState currentState;
         private int swapIndexA;
 
-        internal event Action OptionsRequested;
         internal event Action<Monster> ItemTargetRequested;
 
-        internal bool IsForced { get; set; }
+        private bool CanClose => currentState == PartyMenuState.Selection && !IsBattleSwap;
+        internal bool IsBattleSwap { get; set; }
 
         private void OnEnable()
         {
             partyMenuView.SlotRequested += OnSlotRequested;
             partyMenuView.BackRequested += OnBackRequested;
-            partyMenuView.ShowChoosePrompt();
-            partyMenuView.Refresh();
+            player.Party.PartyChanged += OnPartyChanged;
 
-            OptionsRequested += OnOptionsRequested;
+            ResetToSelection();
         }
 
         private void OnDisable()
         {
             partyMenuView.SlotRequested -= OnSlotRequested;
             partyMenuView.BackRequested -= OnBackRequested;
-
-            OptionsRequested -= OnOptionsRequested;
+            player.Party.PartyChanged -= OnPartyChanged;
         }
 
-        // Add this so the Controller knows if it can close the menu!
-        internal bool RequestClose(bool isForced = false)
+        internal void SetState(PartyMenuState state) => currentState = state;
+
+        internal void ResetToSelection()
         {
-            if (isSwapping)
-            {
-                EndSwap();
-                return false; // Just stop swapping, don't close menu
-            }
-
-            // In Battle, we can only go back if it's NOT a forced switch
-            if (mode == PartySelectionMode.Battle && isForced)
-            {
-                return false;
-            }
-
-            return true; // Safe to close in Overworld or voluntary Battle swap
+            currentState = PartyMenuState.Selection;
+            partyMenuView.ShowSelectionPrompt();
         }
-
-        internal void SetMode(PartySelectionMode selectionMode) => mode = selectionMode;
 
         internal void StartSwap()
         {
-            if (mode != PartySelectionMode.Overworld) return;
-
-            isSwapping = true;
+            currentState = PartyMenuState.Swap;
             swapIndexA = player.Party.SelectedIndex;
-            partyMenuView.ShowSwapPrompt(partyMenuView.CurrentSlotButton);
+
+            if (!IsBattleSwap)
+            {
+                partyMenuView.ShowSwapPrompt(partyMenuView.CurrentSlotButton);
+            }
+        }
+        private void HandleSwap(PartyMenuSlot slot)
+        {
+            if (swapIndexA != slot.Index)
+            {
+                player.Party.Swap(swapIndexA, slot.Index);
+            }
+
+            currentState = PartyMenuState.Selection;
+            partyMenuView.ClearSwapLock();
         }
 
-        private void EndSwap()
+        private void CancelSwap()
         {
-            isSwapping = false;
+            currentState = PartyMenuState.Selection;
             partyMenuView.ClearSwapLock();
+        }
+
+        internal void StartBattleSelection(bool forced)
+        {
+            currentState = PartyMenuState.Selection;
+            IsBattleSwap = forced;
+            ViewManager.Instance.Show<PartyMenuView>();
         }
 
         private void OnSlotRequested(PartyMenuSlot slot)
         {
             player.Party.SetSelection(slot.Index);
 
-            switch (mode)
+            switch (currentState)
             {
-                case PartySelectionMode.Overworld:
-                    ProcessOverworldInput(slot);
+                case PartyMenuState.Selection:
+                    ShowOptions();
                     break;
-                case PartySelectionMode.Battle:
-                    OptionsRequested?.Invoke();
+
+                case PartyMenuState.Swap:
+                    HandleSwap(slot);
                     break;
-                case PartySelectionMode.UseItem:
+
+                case PartyMenuState.Item:
                     ItemTargetRequested?.Invoke(player.Party.SelectedMonster);
                     break;
             }
         }
 
-        private void ProcessOverworldInput(PartyMenuSlot slot)
+        private void OnBackRequested()
         {
-            if (isSwapping)
+            switch (currentState)
             {
-                if (swapIndexA != slot.Index) player.Party.Swap(swapIndexA, slot.Index);
-                EndSwap();
-                partyMenuView.Refresh();
-                return;
+                case PartyMenuState.Swap:
+                    CancelSwap();
+                    break;
+
+                case PartyMenuState.Options:
+                    CancelOptions();
+                    break;
+
+                case PartyMenuState.Selection:
+                    if (CanClose)
+                    {
+                        ViewManager.Instance.Close<PartyMenuView>();
+                    }
+                    break;
             }
-            OptionsRequested?.Invoke();
         }
 
-        private void OnOptionsRequested()
+        private void OnPartyChanged() => partyMenuView.Refresh();
+
+        private void ShowOptions()
         {
+            currentState = PartyMenuState.Options;
             ViewManager.Instance.Show<PartyMenuOptionsView>();
         }
 
-        private void OnBackRequested()
+        internal void CancelOptions()
         {
-            if (RequestClose(IsForced))
-            {
-                ViewManager.Instance.Close<PartyMenuView>();
-            }
-            else
-            {
-                // If we were swapping, RequestClose() will just stop swap
-                partyMenuView.Refresh();
-            }
+            currentState = PartyMenuState.Selection;
+            partyMenuView.ShowSelectionPrompt();
         }
     }
 }
