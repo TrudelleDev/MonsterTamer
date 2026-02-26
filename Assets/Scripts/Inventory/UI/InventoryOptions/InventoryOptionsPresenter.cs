@@ -38,8 +38,6 @@ namespace MonsterTamer.Inventory.UI.InventoryOptions
         {
             inventoryOptionsView.UseRequested -= OnUseRequested;
             inventoryOptionsView.BackRequested -= OnBackRequested;
-
-            partyMenuPresenter.ItemTargetRequested -= OnItemTargetSelected;
         }
 
         internal void Initialize(ItemDefinition item) => currentItem = item;
@@ -48,8 +46,7 @@ namespace MonsterTamer.Inventory.UI.InventoryOptions
         {
             if (currentItem == null) return;
 
-            // Start item selection flow
-           
+            partyMenuPresenter.StartItemSelection();
             partyMenuPresenter.ItemTargetRequested += OnItemTargetSelected;
 
             ViewManager.Instance.Show<PartyMenuView>();
@@ -58,7 +55,7 @@ namespace MonsterTamer.Inventory.UI.InventoryOptions
         private void OnItemTargetSelected(Monster monster)
         {
             // Unsubscribe immediately
-            partyMenuPresenter.ItemTargetRequested -= OnItemTargetSelected;
+           partyMenuPresenter.ItemTargetRequested -= OnItemTargetSelected;
 
             var itemInstance = player.Inventory.Items.FirstOrDefault(i => i.Definition == currentItem);
             if (itemInstance == null) return;

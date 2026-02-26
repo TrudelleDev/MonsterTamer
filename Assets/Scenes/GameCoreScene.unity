@@ -13402,8 +13402,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openTransition: 0
   closeTransition: 0
-  closeSound: {fileID: 0}
-  menuController: {fileID: 0}
+  closeSound: {fileID: 8300000, guid: 2f3d1732886d3a2499fa00a428876c26, type: 3}
+  menuController: {fileID: 661416924}
   moveSelectionPanel: {fileID: 1322802260}
   moveSelectionDetail: {fileID: 1558641925}
 --- !u!222 &1786823631
@@ -18132,7 +18132,7 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0.18828125
-    y: 0.0055555557
+    y: 0.0048611113
     width: 0.1875
     height: 0.22222222
   near clip plane: 0.3

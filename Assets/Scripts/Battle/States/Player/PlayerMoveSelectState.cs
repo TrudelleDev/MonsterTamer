@@ -31,7 +31,7 @@ namespace MonsterTamer.Battle.States.Player
             moveSelectionView.BindMoves(Battle.PlayerActiveMonster.Moves.MoveSet);
 
             moveSelectionView.MoveConfirmed += HandleMoveConfirmed;
-          //  moveSelectionView.BackRequested += OnBackRequested;
+            moveSelectionView.BackRequested += OnBackRequested;
         }
 
         private void CloseMoveSelection()
@@ -39,7 +39,7 @@ namespace MonsterTamer.Battle.States.Player
             if (moveSelectionView == null) return;
 
             moveSelectionView.MoveConfirmed -= HandleMoveConfirmed;
-           // moveSelectionView.BackRequested -= OnBackRequested;
+            moveSelectionView.BackRequested -= OnBackRequested;
 
             ViewManager.Instance.Close<BattleMoveSelectionView>();
         }

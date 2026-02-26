@@ -33,8 +33,6 @@ namespace MonsterTamer.Party.UI
             partyMenuView.SlotRequested += OnSlotRequested;
             partyMenuView.BackRequested += OnBackRequested;
             player.Party.PartyChanged += OnPartyChanged;
-
-            ResetToSelection();
         }
 
         private void OnDisable()
@@ -44,13 +42,13 @@ namespace MonsterTamer.Party.UI
             player.Party.PartyChanged -= OnPartyChanged;
         }
 
-        internal void SetState(PartyMenuState state) => currentState = state;
-
         internal void ResetToSelection()
         {
             currentState = PartyMenuState.Selection;
+            IsBattleSwap = false;
             partyMenuView.ShowSelectionPrompt();
         }
+        
 
         internal void StartSwap()
         {
@@ -82,8 +80,22 @@ namespace MonsterTamer.Party.UI
         internal void StartBattleSelection(bool forced)
         {
             currentState = PartyMenuState.Selection;
-            IsBattleSwap = forced;
+            IsBattleSwap = forced;;
+
             ViewManager.Instance.Show<PartyMenuView>();
+        }
+
+        internal void StartItemSelection()
+        {
+            currentState = PartyMenuState.Item;
+            IsBattleSwap = false;
+            partyMenuView.ShowSelectionPrompt();
+        }
+
+        internal void CancelOptions()
+        {
+            currentState = PartyMenuState.Selection;
+            partyMenuView.ShowSelectionPrompt();
         }
 
         private void OnSlotRequested(PartyMenuSlot slot)
@@ -118,6 +130,11 @@ namespace MonsterTamer.Party.UI
                     CancelOptions();
                     break;
 
+                case PartyMenuState.Item:
+                    ResetToSelection();
+                    ViewManager.Instance.Close<PartyMenuView>();
+                    break;
+
                 case PartyMenuState.Selection:
                     if (CanClose)
                     {
@@ -133,12 +150,6 @@ namespace MonsterTamer.Party.UI
         {
             currentState = PartyMenuState.Options;
             ViewManager.Instance.Show<PartyMenuOptionsView>();
-        }
-
-        internal void CancelOptions()
-        {
-            currentState = PartyMenuState.Selection;
-            partyMenuView.ShowSelectionPrompt();
         }
     }
 }
