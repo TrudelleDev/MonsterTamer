@@ -34,7 +34,7 @@ namespace MonsterTamer.Battle.States.Player
             var monsterName = selectedMonster.Definition.DisplayName;
             var sendMessage = BattleMessages.PlayerSendMonster(monsterName);
 
-            Battle.DialogueBox.DisplayWithInput(sendMessage);
+            Battle.DialogueBox.ShowConversational(sendMessage);
 
             yield return animation.PlayPlayerMonsterEnter();
             yield return animation.PlayPlayerHudEnter();

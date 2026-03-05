@@ -13,14 +13,14 @@ namespace MonsterTamer.Views
     internal abstract class View : MonoBehaviour
     {
         [Title("Base View Settings")]
-        [SerializeField, Required] private TransitionType openTransition = TransitionType.None;
-        [SerializeField, Required] private TransitionType closeTransition = TransitionType.None;
-        [SerializeField, Required] protected AudioClip closeSound;
-        [SerializeField, Required] protected MenuController menuController;
+        [SerializeField] private TransitionType openTransition = TransitionType.None;
+        [SerializeField] private TransitionType closeTransition = TransitionType.None;
+        [SerializeField] protected AudioClip closeSound;
+        [SerializeField] protected MenuController menuController;
 
         internal event Action BackRequested;
 
-        private bool isFrozen;
+        protected bool isFrozen;
 
         internal TransitionType OpenTransition => openTransition;
         internal TransitionType CloseTransition => closeTransition;

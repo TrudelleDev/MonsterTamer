@@ -43,7 +43,7 @@ namespace MonsterTamer.Battle.States.Opponent
 
             Battle.SetNextOpponentMonster(monster);
 
-            yield return Battle.DialogueBox.DisplayAndWaitTyping(sendMessage); 
+            yield return Battle.DialogueBox.ShowTimedMessage(sendMessage); 
             yield return animation.PlayOpponentMonsterEnter();
             yield return animation.PlayOpponentHudEnter();
 

@@ -23,15 +23,15 @@ namespace MonsterTamer.Battle
     internal sealed class BattleView : View
     {
         [SerializeField, Required] private AudioClip battleBgm;
-        [SerializeField, Required] private DialogueBox dialogueBox;
         [SerializeField, Required] private Image opponentTrainerSprite;
         [SerializeField] private BattleHuds battleHuds;
         [SerializeField] private BattleComponents components;
 
+        private DialogueView dialogueView;
         private BattleStateMachine stateMachine;
         private IBattleState introState;
 
-        internal event Action OnBattleViewClose;
+        internal event Action BattleViewClose;
         internal readonly WaitForSecondsRealtime TurnPauseYield = new(0.5f);
 
         internal Character Player { get; private set; }
@@ -41,11 +41,17 @@ namespace MonsterTamer.Battle
 
         internal BattleHuds BattleHUDs => battleHuds;
         internal BattleComponents Components => components;
-        internal DialogueBox DialogueBox => dialogueBox;
+        internal DialogueView DialogueBox => dialogueView;
+
+        private void Awake()
+        {
+            dialogueView = ViewManager.Instance.Get<DialogueView>();
+        }
 
         private void OnEnable()
         {
-            StartCoroutine(PlayIntro());
+            ViewManager.Instance.Show<DialogueView>();
+            StartCoroutine(PlayIntro());      
         }
 
         protected override void Update()
@@ -61,7 +67,6 @@ namespace MonsterTamer.Battle
         {
             InitializeBattle(player, null, player.Party.Members[0], wildMonster);
             introState = new WildBattleIntroState(stateMachine);
-
             AudioManager.Instance.PlayBGM(battleBgm);
         }
 
@@ -74,6 +79,7 @@ namespace MonsterTamer.Battle
             introState = new TrainerBattleIntroState(stateMachine);
 
             opponentTrainerSprite.sprite = opponent.Definition.BattleSprite;
+
             AudioManager.Instance.PlayBGM(battleBgm);
         }
 
@@ -122,13 +128,14 @@ namespace MonsterTamer.Battle
         {
             battleHuds.PlayerBattleHud.Unbind();
             battleHuds.OpponentBattleHud.Unbind();
-
             Player.Party.RestoreAllHealth();
             components.Animation.ResetIntro();
 
-            OnBattleViewClose?.Invoke();
-            dialogueBox.Clear();
+            BattleViewClose?.Invoke();
 
+            dialogueView.Clear();
+
+            ViewManager.Instance.Close<DialogueView>();
             ViewManager.Instance.Close<BattleView>();
         }
 

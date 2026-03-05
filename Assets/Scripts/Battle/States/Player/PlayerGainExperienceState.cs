@@ -33,7 +33,7 @@ namespace MonsterTamer.Battle.States.Player
             // Calculate experience gain
             int expGained = player.Experience.CalculateExpGain(opponent);
             var expGainMessage = BattleMessages.GainExperience(player.Definition.DisplayName, expGained);
-            yield return dialogue.DisplayBattleDialogue(expGainMessage);
+            yield return dialogue.ShowBattleSequence(expGainMessage);
 
             // Track Level Ups
             int levelsGained = 0;
@@ -48,7 +48,7 @@ namespace MonsterTamer.Battle.States.Player
             if (levelsGained > 0)
             {
                 var levelUpMessage = BattleMessages.LevelUp(player.Definition.DisplayName, player.Experience.Level);
-                yield return dialogue.DisplayBattleDialogue(levelUpMessage);
+                yield return dialogue.ShowBattleSequence(levelUpMessage);
             }
 
             player.Experience.LevelChanged -= OnLevelChange;

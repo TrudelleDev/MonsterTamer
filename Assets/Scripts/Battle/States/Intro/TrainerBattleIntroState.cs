@@ -48,8 +48,8 @@ namespace MonsterTamer.Battle.States.Intro
             yield return animation.PlayOpponentTrainerEnter();
 
             // Show battle intro messages
-            yield return Battle.DialogueBox.DisplayBattleDialogue(introMessage);
-            Battle.DialogueBox.DisplayWithInput(sendMessage);
+            yield return Battle.DialogueBox.ShowBattleSequence(introMessage);
+            Battle.DialogueBox.ShowConversational(sendMessage);
 
             // Opponent trainer exits, monster enters, and HUD shows
             yield return animation.PlayOpponentTrainerExit();
@@ -64,7 +64,7 @@ namespace MonsterTamer.Battle.States.Intro
 
             // Show message for sending out player's monster
             var sendMessage = BattleMessages.PlayerSendMonster(monster.Definition.DisplayName);
-            Battle.DialogueBox.DisplayWithInput(sendMessage);
+            Battle.DialogueBox.ShowConversational(sendMessage);
 
             // Player trainer exits, monster enters, and HUD shows
             yield return animation.PlayPlayerTrainerExit();

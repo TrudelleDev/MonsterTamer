@@ -2,6 +2,7 @@
 using MonsterTamer.Characters.Core;
 using MonsterTamer.Characters.Interfaces;
 using MonsterTamer.Dialogue;
+using MonsterTamer.Views;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace MonsterTamer.Items
             string fullDialogue = $"{itemFoundLine}\n{putInBagLine}";
 
             AudioManager.Instance.PlaySFX(receiveItemClip);
-            DialogueBoxOverworld.Instance.Dialogue.DisplayWithInput(fullDialogue);
+            ViewManager.Instance.Get<DialogueView>().ShowConversational(fullDialogue);
 
             player.Inventory.Add(item);
 

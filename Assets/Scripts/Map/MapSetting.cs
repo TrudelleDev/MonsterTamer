@@ -1,5 +1,6 @@
 ﻿using MonsterTamer.Audio;
 using MonsterTamer.Battle;
+using MonsterTamer.Dialogue;
 using MonsterTamer.Views;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -23,9 +24,10 @@ namespace MonsterTamer.Map
             ApplyMapSetting();
 
             battleView = ViewManager.Instance.Get<BattleView>();
+
             if (battleView != null)
             {
-                battleView.OnBattleViewClose += ApplyMapSetting;
+                battleView.BattleViewClose += ApplyMapSetting;
             }
         }
 
@@ -33,7 +35,7 @@ namespace MonsterTamer.Map
         {
             if (battleView != null)
             {
-                battleView.OnBattleViewClose -= ApplyMapSetting;
+                battleView.BattleViewClose -= ApplyMapSetting;
             }
         }
 

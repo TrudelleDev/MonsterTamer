@@ -2,6 +2,7 @@
 {
     internal enum PartyMenuState
     {
+        BattleForcedSelection,
         Selection, // default browsing
         Options,   // action menu open
         Swap,      // choosing swap target

@@ -36,7 +36,7 @@ namespace MonsterTamer.Party.UI.PartyOptions
 
         private void OnBackRequested()
         {
-            partyPresenter.ResetToSelection();
+            partyPresenter.ReturnToBaseSelection();
             ViewManager.Instance.Close<PartyMenuOptionsView>();
         }
 

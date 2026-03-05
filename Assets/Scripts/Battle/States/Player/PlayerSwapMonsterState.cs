@@ -38,7 +38,7 @@ namespace MonsterTamer.Battle.States.Player
 
             // Withdraw Current Monster
             string currentName = Battle.PlayerActiveMonster.Definition.DisplayName;
-            yield return dialogue.DisplayBattleDialogue(BattleMessages.MonsterReturnParty(currentName));
+            yield return dialogue.ShowTimedMessage(BattleMessages.MonsterReturnParty(currentName));
 
             animation.PlayPlayerHudExit();
             yield return animation.PlayPlayerMonsterExit();
@@ -48,7 +48,7 @@ namespace MonsterTamer.Battle.States.Player
             string newName = newMonster.Definition.DisplayName;
 
             // Send new Monster
-            dialogue.DisplayWithInput(BattleMessages.PlayerSendMonster(newName));
+            dialogue.ShowConversational(BattleMessages.PlayerSendMonster(newName));
             yield return animation.PlayPlayerMonsterEnter();
             yield return animation.PlayPlayerHudEnter();
 

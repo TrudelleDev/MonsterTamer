@@ -2,6 +2,7 @@
 using MonsterTamer.Battle.Models;
 using MonsterTamer.Battle.States.Core;
 using MonsterTamer.Battle.UI;
+using MonsterTamer.Dialogue;
 using MonsterTamer.Views;
 using UnityEngine;
 
@@ -22,10 +23,7 @@ namespace MonsterTamer.Battle.States.Player
             this.machine = machine;
         }
 
-        public void Enter()
-        {
-            Battle.StartCoroutine(SetupUIAndAwaitInput());
-        }
+        public void Enter() => Battle.StartCoroutine(SetupUIAndAwaitInput());
 
         public void Update() { }
 
@@ -46,10 +44,13 @@ namespace MonsterTamer.Battle.States.Player
             // Wait for UI transitions
             yield return new WaitUntil(() => !ViewManager.Instance.IsTransitioning);
 
-            actionPanel = ViewManager.Instance.Show<BattleActionView>();
+            var test = ViewManager.Instance.Show<DialogueView>();
 
             var chooseActionMessage = BattleMessages.ChooseAction(Battle.PlayerActiveMonster.Definition.DisplayName);
-            Battle.DialogueBox.DisplayInstant(chooseActionMessage);
+            Battle.DialogueBox.ShowInstant(chooseActionMessage);
+
+            yield return null;
+            actionPanel = ViewManager.Instance.Show<BattleActionView>();
 
             actionPanel.MoveSelectionRequested += OnMoveSelectionRequested;
             actionPanel.PartyRequested += OnPartyRequested;
@@ -60,7 +61,7 @@ namespace MonsterTamer.Battle.States.Player
         private IEnumerator ShowEscapeFailDialogue()
         {
             ViewManager.Instance.Close<BattleActionView>();
-            yield return Battle.DialogueBox.DisplayAndWaitTyping(BattleMessages.EscapeTrainer);
+            yield return Battle.DialogueBox.ShowTimedMessage(BattleMessages.EscapeTrainer);
 
             machine.SetState(new PlayerActionMenuState(machine));
         }

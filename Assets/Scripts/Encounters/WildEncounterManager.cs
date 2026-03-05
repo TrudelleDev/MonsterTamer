@@ -2,6 +2,7 @@
 using MonsterTamer.Battle;
 using MonsterTamer.Characters.Core;
 using MonsterTamer.Characters.Player;
+using MonsterTamer.Dialogue;
 using MonsterTamer.Monsters;
 using MonsterTamer.Monsters.Models;
 using MonsterTamer.Views;
@@ -74,7 +75,7 @@ namespace MonsterTamer.Encounters
 
             BattleView battle = ViewManager.Instance.Show<BattleView>();
             battle.InitializeWildBattle(player, monster);
-            battle.OnBattleViewClose += UnlockEncounter;
+            battle.BattleViewClose += UnlockEncounter;
         }
 
         private WildMonsterEntry ChooseWildMonster()

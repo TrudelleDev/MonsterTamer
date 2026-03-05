@@ -44,7 +44,7 @@ namespace MonsterTamer.Battle.States.Player
             var context = new MoveContext(Battle, player, opponent, playerMove);
             var useMoveMessage = BattleMessages.UseMove(player.Definition.DisplayName, playerMove.Definition.DisplayName);
 
-            yield return Battle.DialogueBox.DisplayAndWaitTyping(useMoveMessage);
+            yield return Battle.DialogueBox.ShowTimedMessage(useMoveMessage);
             yield return playerMove.Definition.MoveEffect.PerformMoveSequence(context);
             yield return Battle.TurnPauseYield;
 

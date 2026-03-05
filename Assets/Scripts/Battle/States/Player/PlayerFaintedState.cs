@@ -35,7 +35,7 @@ namespace MonsterTamer.Battle.States.Player
             animation.PlayPlayerMonsterDeath();
             animation.PlayPlayerHudExit();
 
-            yield return dialogue.DisplayBattleDialogue(faintMessage);
+            yield return dialogue.ShowBattleSequence(faintMessage);
 
             // Force the player to choose and other Monster.
             if (Battle.Player.Party.HasAnyUsableMonster)

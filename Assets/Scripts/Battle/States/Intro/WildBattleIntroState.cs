@@ -46,7 +46,7 @@ namespace MonsterTamer.Battle.States.Intro
             yield return animation.PlayWildMonsterEnter();
             yield return animation.PlayOpponentHudEnter();
 
-            yield return Battle.DialogueBox.DisplayBattleDialogue(introMessage);
+            yield return Battle.DialogueBox.ShowBattleSequence(introMessage);
         }
 
         private IEnumerator PlayPlayerEntrance()
@@ -55,7 +55,7 @@ namespace MonsterTamer.Battle.States.Intro
             var monsterName = Battle.PlayerActiveMonster.Definition.DisplayName;
             var sendMessage = BattleMessages.PlayerSendMonster(monsterName);
 
-            Battle.DialogueBox.DisplayWithInput(sendMessage);
+            yield return Battle.DialogueBox.ShowTimedMessage(sendMessage);
 
             yield return animation.PlayPlayerTrainerExit();
             yield return animation.PlayPlayerMonsterEnter();

@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using MonsterTamer.Battle.Models;
 using MonsterTamer.Battle.States.Core;
-using MonsterTamer.Dialogue;
-using MonsterTamer.Party.Enums;
+using MonsterTamer.Monsters;
 using MonsterTamer.Party.UI;
 using MonsterTamer.Party.UI.PartyOptions;
 using MonsterTamer.Views;
@@ -36,8 +35,6 @@ namespace MonsterTamer.Battle.States.Player
             partyPresenter = partyView.GetComponent<PartyMenuPresenter>();
             optionsView = ViewManager.Instance.Get<PartyMenuOptionsView>();
 
-            partyPresenter.IsBattleSwap = this.isForced;
-
             partyPresenter.StartBattleSelection(isForced);
 
             if (!isForced)
@@ -50,46 +47,31 @@ namespace MonsterTamer.Battle.States.Player
             partyView.Refresh();
         }
 
-        public void Exit()
-        {
-            if (partyView != null)
-                partyView.BackRequested -= OnBackRequested;
-
-            if (optionsView != null)
-                optionsView.SwapRequested -= OnSwapRequested;
-
-            ViewManager.Instance.Close<PartyMenuOptionsView>();
-            ViewManager.Instance.Close<PartyMenuView>();
-        }
+        public void Exit() => PerformCleanup();
 
         public void Update() { }
 
         private IEnumerator PlayTransitionSequence()
         {
-            var dialogue = DialogueBoxOverworld.Instance.Dialogue;
+            var dialogue = Battle.DialogueBox;
             var monster = Battle.Player.Party.SelectedMonster;
 
-            // Active Monster must have remaining HP
-            if (monster.IsFainted)
-            {
-                ViewManager.Instance.Close<PartyMenuOptionsView>();
-                var noEnergyMessage = BattleMessages.MonsterHasNoEnergy(monster.Definition.DisplayName);
+            ViewManager.Instance.Close<PartyMenuOptionsView>();
 
-                yield return dialogue.DisplayAndWaitTyping(noEnergyMessage);
+            // Block invalid selections (fainted or already active) and reset the menu state
+            if (monster.IsFainted || monster == Battle.PlayerActiveMonster)
+            {
+                // Close the options popup immediately to prevent double-clicks
+                ViewManager.Instance.Close<PartyMenuOptionsView>();
+
+                yield return dialogue.ShowBattleSequence(GetMessage(monster));
+
+                // Return to either Selection or BattleForcedSelection based on the context
+                partyPresenter.ReturnToBaseSelection();
                 yield break;
             }
 
-            // Cannot swap to self
-            if (monster == Battle.PlayerActiveMonster)
-            {
-                ViewManager.Instance.Close<PartyMenuOptionsView>();
-                yield return dialogue.DisplayAndWaitTyping(BattleMessages.MonsterAlreadyInBattle);
-                yield break;
-            }
-
-            // Clean up and Transition
-            Exit();
-
+            PerformCleanup();
             yield return new WaitUntil(() => !ViewManager.Instance.IsTransitioning);
 
             if (isForced)
@@ -102,6 +84,23 @@ namespace MonsterTamer.Battle.States.Player
                 var opponentMove = Battle.OpponentActiveMonster.GetRandomMove();
                 machine.SetState(new PlayerSwapMonsterState(machine, monster, opponentMove));
             }
+        }
+
+        private string GetMessage(Monster monster)
+        {
+            if (monster.IsFainted) return BattleMessages.MonsterHasNoEnergy(monster.Definition.DisplayName);
+            if (monster == Battle.PlayerActiveMonster) return BattleMessages.MonsterAlreadyInBattle;
+
+            return string.Empty;
+        }
+
+        private void PerformCleanup()
+        {
+            if (partyView != null) partyView.BackRequested -= OnBackRequested;
+            if (optionsView != null) optionsView.SwapRequested -= OnSwapRequested;
+
+            ViewManager.Instance.Close<PartyMenuOptionsView>();
+            ViewManager.Instance.Close<PartyMenuView>();
         }
 
         private void OnSwapRequested() => Battle.StartCoroutine(PlayTransitionSequence());

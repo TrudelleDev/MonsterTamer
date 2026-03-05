@@ -38,34 +38,41 @@ namespace MonsterTamer.Characters.Trainers
             playerStateController = player.GetComponent<CharacterStateController>();
             trainerStateController.Reface(playerStateController.FacingDirection.Opposite());
 
+            // Get the reference without "Showing" it yet
+            var dialogueView = ViewManager.Instance.Get<DialogueView>();
+
             if (HasBattled)
             {
-                DialogueBoxOverworld.Instance.Dialogue.DisplayWithInput(trainer.Definition.PostEventDialogue);
+                // This method now handles its own Open/Close internally
+                dialogueView.ShowConversational(trainer.Definition.PostEventDialogue);
                 return;
             }
 
             playerStateController?.LockMovement();
 
-            // Show pre-battle dialogue
-            var dialogue = DialogueBoxOverworld.Instance.Dialogue;
-            dialogue.DialogueFinished += OnPreBattleDialogueFinished;
-            DialogueBoxOverworld.Instance.Dialogue.DisplayWithInput(trainer.Definition.DefaultInteractionDialogue);
+            // Setup the battle trigger
+            dialogueView.DialogueFinished += OnPreBattleDialogueFinished;
+
+            // We use the "ShowInteractive" because it auto-closes, 
+            // which is exactly what we want right before a battle transition!
+            dialogueView.ShowConversational(trainer.Definition.DefaultInteractionDialogue);
         }
 
         private void OnPreBattleDialogueFinished()
         {
-            var dialogue = DialogueBoxOverworld.Instance.Dialogue;
-            dialogue.DialogueFinished -= OnPreBattleDialogueFinished;
+            var dialogueView = ViewManager.Instance.Get<DialogueView>();
+            dialogueView.DialogueFinished -= OnPreBattleDialogueFinished;
 
             BattleView battle = ViewManager.Instance.Show<BattleView>();
             battle.InitializeTrainerBattle(player, trainer);
-            battle.OnBattleViewClose += OnBattleFinished;
+            battle.BattleViewClose += OnBattleFinished;
 
             HasBattled = true;
         }
 
         private void OnBattleFinished()
         {
+          //  ViewManager.Instance.InstantClose<DialogueView>();
             playerStateController?.UnlockMovement();
         }
     }

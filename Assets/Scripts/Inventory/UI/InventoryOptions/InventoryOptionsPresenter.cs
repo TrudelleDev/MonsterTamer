@@ -5,7 +5,6 @@ using MonsterTamer.Dialogue;
 using MonsterTamer.Items.Definitions;
 using MonsterTamer.Items.Models;
 using MonsterTamer.Monsters;
-using MonsterTamer.Party.Enums;
 using MonsterTamer.Party.UI;
 using MonsterTamer.Views;
 using Sirenix.OdinInspector;
@@ -55,7 +54,7 @@ namespace MonsterTamer.Inventory.UI.InventoryOptions
         private void OnItemTargetSelected(Monster monster)
         {
             // Unsubscribe immediately
-           partyMenuPresenter.ItemTargetRequested -= OnItemTargetSelected;
+            partyMenuPresenter.ItemTargetRequested -= OnItemTargetSelected;
 
             var itemInstance = player.Inventory.Items.FirstOrDefault(i => i.Definition == currentItem);
             if (itemInstance == null) return;
@@ -70,14 +69,17 @@ namespace MonsterTamer.Inventory.UI.InventoryOptions
             }
 
             // Display results
-            DialogueBoxOverworld.Instance.Dialogue.DisplayWithInput(result.Messages);
-            DialogueBoxOverworld.Instance.Dialogue.DialogueFinished += OnDialogueFinished;
+            var dialogueView = ViewManager.Instance.Get<DialogueView>();
+            dialogueView.ShowConversational(result.Messages);
+            dialogueView.DialogueFinished += OnDialogueFinished;
         }
 
         private void OnDialogueFinished()
         {
-            DialogueBoxOverworld.Instance.Dialogue.DialogueFinished -= OnDialogueFinished;
+            var dialogueView = ViewManager.Instance.Get<DialogueView>();
+            dialogueView.DialogueFinished -= OnDialogueFinished;
 
+            ViewManager.Instance.InstantClose<DialogueView>();
             ViewManager.Instance.Close<PartyMenuView>();
             ItemUsed?.Invoke(lastItemUseSucceeded);
         }

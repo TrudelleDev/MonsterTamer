@@ -35,7 +35,7 @@ namespace MonsterTamer.Views
         {
             var partyMenuView = ViewManager.Instance.Show<PartyMenuView>();
             var partyMenuPresenter = partyMenuView.GetComponent<PartyMenuPresenter>();
-            partyMenuPresenter.ResetToSelection();
+            partyMenuPresenter.ReturnToBaseSelection();
         }
 
         private void OnInventoryOpenRequested() => ViewManager.Instance.Show<InventoryView>();

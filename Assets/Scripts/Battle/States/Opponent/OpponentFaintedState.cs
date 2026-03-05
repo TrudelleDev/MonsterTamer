@@ -36,7 +36,7 @@ namespace MonsterTamer.Battle.States.Opponent
     
             animation.PlayOpponentMonsterDeath();
             yield return animation.PlayOpponentHudExit();
-            yield return Battle.DialogueBox.DisplayBattleDialogue(faintMessage);
+            yield return Battle.DialogueBox.ShowBattleSequence(faintMessage);
 
             machine.SetState(new PlayerGainExperienceState(machine));
         }

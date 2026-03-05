@@ -22,11 +22,11 @@ namespace MonsterTamer.Party.UI
 
         private PartyMenuState currentState;
         private int swapIndexA;
+        private bool isForcedContext;
 
         internal event Action<Monster> ItemTargetRequested;
 
-        private bool CanClose => currentState == PartyMenuState.Selection && !IsBattleSwap;
-        internal bool IsBattleSwap { get; set; }
+        private bool CanClose => currentState == PartyMenuState.Selection;
 
         private void OnEnable()
         {
@@ -42,24 +42,26 @@ namespace MonsterTamer.Party.UI
             player.Party.PartyChanged -= OnPartyChanged;
         }
 
-        internal void ResetToSelection()
-        {
-            currentState = PartyMenuState.Selection;
-            IsBattleSwap = false;
-            partyMenuView.ShowSelectionPrompt();
-        }
-        
-
         internal void StartSwap()
         {
+            // 1. Check if we are currently in a forced state BEFORE changing it
+            bool wasForced = (currentState == PartyMenuState.BattleForcedSelection);
+
+            // 2. Now change to Swap state
             currentState = PartyMenuState.Swap;
             swapIndexA = player.Party.SelectedIndex;
 
-            if (!IsBattleSwap)
+            if (!wasForced)
             {
                 partyMenuView.ShowSwapPrompt(partyMenuView.CurrentSlotButton);
             }
+            else
+            {
+                // If in battle swap, immediately handle swap when slot is clicked
+                partyMenuView.ClearSwapLock();
+            }
         }
+
         private void HandleSwap(PartyMenuSlot slot)
         {
             if (swapIndexA != slot.Index)
@@ -67,35 +69,40 @@ namespace MonsterTamer.Party.UI
                 player.Party.Swap(swapIndexA, slot.Index);
             }
 
-            currentState = PartyMenuState.Selection;
-            partyMenuView.ClearSwapLock();
+            ReturnToBaseSelection();
         }
 
         private void CancelSwap()
         {
-            currentState = PartyMenuState.Selection;
+            currentState = isForcedContext ? PartyMenuState.BattleForcedSelection : PartyMenuState.Selection;
             partyMenuView.ClearSwapLock();
         }
 
         internal void StartBattleSelection(bool forced)
         {
-            currentState = PartyMenuState.Selection;
-            IsBattleSwap = forced;;
+            isForcedContext = forced;
+
+            // Initial state setup
+            currentState = forced ? PartyMenuState.BattleForcedSelection : PartyMenuState.Selection;
 
             ViewManager.Instance.Show<PartyMenuView>();
+            partyMenuView.ShowSelectionPrompt();
         }
 
         internal void StartItemSelection()
         {
             currentState = PartyMenuState.Item;
-            IsBattleSwap = false;
             partyMenuView.ShowSelectionPrompt();
         }
 
-        internal void CancelOptions()
+
+        internal void ReturnToBaseSelection()
         {
-            currentState = PartyMenuState.Selection;
+            // Use the context flag we set in StartBattleSelection
+            currentState = isForcedContext ? PartyMenuState.BattleForcedSelection : PartyMenuState.Selection;
+
             partyMenuView.ShowSelectionPrompt();
+            partyMenuView.ClearSwapLock(); // Safety: makes sure no "Swap ghost" icons are left
         }
 
         private void OnSlotRequested(PartyMenuSlot slot)
@@ -104,6 +111,10 @@ namespace MonsterTamer.Party.UI
 
             switch (currentState)
             {
+                case PartyMenuState.BattleForcedSelection:
+                    ShowOptions();
+                    break;
+
                 case PartyMenuState.Selection:
                     ShowOptions();
                     break;
@@ -122,16 +133,20 @@ namespace MonsterTamer.Party.UI
         {
             switch (currentState)
             {
+                case PartyMenuState.BattleForcedSelection:
+                    // Do nothing. The player MUST pick a monster.
+                    break;
+
                 case PartyMenuState.Swap:
                     CancelSwap();
                     break;
 
                 case PartyMenuState.Options:
-                    CancelOptions();
+                    ReturnToBaseSelection();
                     break;
 
                 case PartyMenuState.Item:
-                    ResetToSelection();
+                    ReturnToBaseSelection();
                     ViewManager.Instance.Close<PartyMenuView>();
                     break;
 

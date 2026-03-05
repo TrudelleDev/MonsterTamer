@@ -24,7 +24,7 @@ namespace MonsterTamer.Battle.States.Player
 
         private IEnumerator PlaySequence()
         {
-            yield return Battle.DialogueBox.DisplayAndWaitTyping(BattleMessages.EscapeSuccess);
+            yield return Battle.DialogueBox.ShowTimedMessage(BattleMessages.EscapeSuccess);
             yield return Battle.TurnPauseYield;
 
             Battle.CloseBattle();

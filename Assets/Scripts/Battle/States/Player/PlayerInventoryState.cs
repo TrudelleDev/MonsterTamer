@@ -1,5 +1,6 @@
 ﻿using MonsterTamer.Battle.States.Core;
 using MonsterTamer.Battle.States.Opponent;
+using MonsterTamer.Dialogue;
 using MonsterTamer.Inventory.UI;
 using MonsterTamer.Views;
 
@@ -22,7 +23,7 @@ namespace MonsterTamer.Battle.States.Player
         }
 
         public void Enter()
-        {
+        {         
             inventoryView = ViewManager.Instance.Show<InventoryView>();
             inventoryPresenter = inventoryView.GetComponent<InventoryPresenter>();
 
@@ -36,6 +37,8 @@ namespace MonsterTamer.Battle.States.Player
         {
             inventoryView.BackRequested -= OnBackRequested;
             inventoryPresenter.ItemUsed -= OnItemUsed;
+
+            ViewManager.Instance.Close<InventoryView>();
         }
 
         private void OnItemUsed(bool used)

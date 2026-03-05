@@ -20,6 +20,7 @@ namespace MonsterTamer.Views
         [SerializeField, Required] private View[] views;
 
         private readonly List<View> activeViews = new(); // Stack of active overlay views (bottom → top)
+        private int currentMaxSortOrder = 100;
 
         internal bool IsTransitioning { get; private set; }
         internal View CurrentView => activeViews.Count > 0 ? activeViews[^1] : null;
@@ -63,25 +64,28 @@ namespace MonsterTamer.Views
         {
             if (IsTransitioning) return null;
 
-            foreach (View view in views)
+            T target = Get<T>();
+            if (target == null) return null;
+
+            // FIX 1: Prevent duplicate stacking
+            if (activeViews.Contains(target))
             {
-                if (view is not T target)
-                {
-                    continue;
-                }
-
-                View previous = CurrentView;
-
-                if (previous != null)
-                {
-                    previous.Freeze();
-                }
-
-                StartCoroutine(ShowAsOverlay(target));
+                // If it's already open, just bring it to the front
+                UpdateViewSorting(target);
                 return target;
             }
 
-            return null;
+            View previous = CurrentView;
+            if (previous != null)
+            {
+                previous.Freeze();
+            }
+
+            // FIX 2: Set the sort order before showing
+            UpdateViewSorting(target);
+
+            StartCoroutine(ShowAsOverlay(target));
+            return target;
         }
 
         /// <summary>
@@ -98,6 +102,17 @@ namespace MonsterTamer.Views
             {
                 StartCoroutine(CloseSpecificViewCoroutine(target));
             }        
+        }
+
+        private void UpdateViewSorting(View target)
+        {
+            Canvas canvas = target.GetComponent<Canvas>();
+            if (canvas != null)
+            {
+                canvas.overrideSorting = true; // Ensure this is checked
+                currentMaxSortOrder += 10;     // Increment global counter
+                canvas.sortingOrder = currentMaxSortOrder;
+            }
         }
 
 
@@ -197,6 +212,12 @@ namespace MonsterTamer.Views
         {
             bool shouldPause = HasActiveView || IsTransitioning;
             PauseManager.SetPaused(shouldPause);
+
+            // If no views are left, reset the sorting order to base
+            if (!HasActiveView && !IsTransitioning)
+            {
+                currentMaxSortOrder = 100;
+            }
         }
 
         private void DebugHistory()

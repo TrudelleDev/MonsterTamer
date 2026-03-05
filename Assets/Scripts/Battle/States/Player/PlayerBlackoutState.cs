@@ -29,17 +29,17 @@ namespace MonsterTamer.Battle.States.Player
         {
             var dialogue = Battle.DialogueBox;
 
-            yield return dialogue.DisplayBattleDialogue(BattleMessages.BlackoutMessage);
+            yield return dialogue.ShowBattleSequence(BattleMessages.BlackoutMessage);
 
             // Teleport player to the checkpoint and restore party health
             MapEntryRegistry.SetNextEntry(MapEntryID.ForestEntrance);
             PlayerRelocator.Instance.RelocatePlayer();
             Battle.Player.Party.RestoreAllHealth();
 
-            yield return dialogue.DisplayAndWaitTyping(BattleMessages.CheckpointRelocationMessage);
+            yield return dialogue.ShowTimedMessage(BattleMessages.CheckpointRelocationMessage);
             yield return Battle.TurnPauseYield;
 
-            ViewManager.Instance.Close<BattleView>();
+            Battle.CloseBattle();
         }
     }
 }

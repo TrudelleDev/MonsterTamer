@@ -30,7 +30,8 @@ namespace MonsterTamer.Battle.States.Player
             // Trainer Outro Logic
             yield return animation.PlayOpponentHudExit();
             yield return animation.PlayOpponentTrainerDefeatOutro();
-            yield return dialogue.DisplayBattleDialogue(opponent.PostBattleClosingDialogue);
+            yield return dialogue.ShowTimedMessage(opponent.PostBattleClosingDialogue);
+            yield return Battle.TurnPauseYield;
 
             // Return to Overworld
             Battle.CloseBattle();
