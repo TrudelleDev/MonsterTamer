@@ -16,8 +16,11 @@ namespace MonsterTamer.Characters.Trainers
     {
         private Character player;
         private Character trainer;
+
         private CharacterStateController trainerStateController;
         private CharacterStateController playerStateController;
+
+        private TrainerVision vision;
 
         internal bool HasBattled { get; private set; }
 
@@ -25,36 +28,56 @@ namespace MonsterTamer.Characters.Trainers
         {
             trainer = GetComponent<Character>();
             trainerStateController = GetComponent<CharacterStateController>();
+            vision = GetComponent<TrainerVision>();
         }
 
         /// <summary>
-        /// Triggered when the player interacts with this trainer.
-        /// Handles pre-battle dialogue, re-facing, and battle initiation.
+        /// Triggered when the player interacts with the trainer.
         /// </summary>
-        /// <param name="player">The player character interacting with the trainer.</param>
         public void Interact(Character player)
         {
             this.player = player;
             playerStateController = player.GetComponent<CharacterStateController>();
-            trainerStateController.Reface(playerStateController.FacingDirection.Opposite());
 
-            // Get the reference without "Showing" it yet
-            var dialogueView = ViewManager.Instance.Get<DialogueView>();
+            FacePlayer();
+
+            if (TryTriggerVision()) return;
 
             if (HasBattled)
             {
-                // This method now handles its own Open/Close internally
-                dialogueView.ShowConversational(trainer.Definition.PostEventDialogue);
+                ShowPostBattleDialogue();
                 return;
             }
 
-            playerStateController?.LockMovement();
+            StartPreBattleDialogue();
+        }
 
-            // Setup the battle trigger
+        private void FacePlayer()
+        {
+            trainerStateController.Reface(playerStateController.FacingDirection.Opposite());
+        }
+
+        private bool TryTriggerVision()
+        {
+            if (HasBattled) return false;
+            if (vision == null || vision.IsSpotted) return false;
+
+            vision.TriggerManualChallenge(player);
+            return true;
+        }
+
+        private void ShowPostBattleDialogue()
+        {
+            var dialogueView = ViewManager.Instance.Get<DialogueView>();
+            dialogueView.ShowConversational(trainer.Definition.PostEventDialogue);
+        }
+
+        private void StartPreBattleDialogue()
+        {
+            playerStateController.LockMovement();
+
+            var dialogueView = ViewManager.Instance.Get<DialogueView>();
             dialogueView.DialogueFinished += OnPreBattleDialogueFinished;
-
-            // We use the "ShowInteractive" because it auto-closes, 
-            // which is exactly what we want right before a battle transition!
             dialogueView.ShowConversational(trainer.Definition.DefaultInteractionDialogue);
         }
 
@@ -64,16 +87,12 @@ namespace MonsterTamer.Characters.Trainers
             dialogueView.DialogueFinished -= OnPreBattleDialogueFinished;
 
             BattleView battle = ViewManager.Instance.Show<BattleView>();
-            battle.InitializeTrainerBattle(player, trainer);
             battle.BattleViewClose += OnBattleFinished;
+            battle.InitializeTrainerBattle(player, trainer);
 
             HasBattled = true;
         }
 
-        private void OnBattleFinished()
-        {
-          //  ViewManager.Instance.InstantClose<DialogueView>();
-            playerStateController?.UnlockMovement();
-        }
+        private void OnBattleFinished() => playerStateController.UnlockMovement();
     }
 }

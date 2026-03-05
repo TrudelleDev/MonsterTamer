@@ -47,6 +47,11 @@ namespace MonsterTamer.Characters.Trainers
         private TileMover playerTileMover;
         private bool spotted;
 
+        /// <summary>
+        /// Returns true if the trainer has already spotted the player.
+        /// </summary>
+        internal bool IsSpotted => spotted;
+
         private void Awake()
         {
             trainerInput = GetComponent<TrainerInput>();
@@ -69,21 +74,38 @@ namespace MonsterTamer.Characters.Trainers
             }
         }
 
+        /// <summary>
+        /// Triggered manually to start the trainer challenge sequence.
+        /// </summary>
+        /// <param name="playerCharacter">The player character being challenged.</param>
+        internal void TriggerManualChallenge(Character playerCharacter)
+        {
+            // If already in a sequence or already battled, do nothing
+            if (spotted || trainerInteractable.HasBattled) return;
+
+            spotted = true;
+            StartCoroutine(ChallengeSequence(playerCharacter));
+        }
+
+        /// <summary>
+        /// Called whenever the player finishes a tile movement to check for detection.
+        /// </summary>
         private void OnPlayerMoveCompleted()
         {
-            if (spotted) return;
+            if (spotted || trainerInteractable.HasBattled) return;
 
             if (TryDetectPlayer(out Character player))
             {
-                var interactable = GetComponent<TrainerInteractable>();
-
-                if (interactable != null && interactable.HasBattled) return;
-
                 spotted = true;
                 StartCoroutine(ChallengeSequence(player));
             }
         }
 
+        /// <summary>
+        /// Attempts to detect the player in the trainer's line-of-sight.
+        /// </summary>
+        /// <param name="player">Output detected player character.</param>
+        /// <returns>True if the player is detected, false otherwise.</returns>
         private bool TryDetectPlayer(out Character player)
         {
             player = null;
@@ -95,18 +117,16 @@ namespace MonsterTamer.Characters.Trainers
 
             if (hit.collider == null) return false;
 
-            Character hitCharacter = hit.collider.GetComponent<Character>();
-
-            if (hitCharacter != PlayerRegistry.Player) return false;
-
             player = hit.collider.GetComponent<Character>();
-
-            return player != null;
+            return player == PlayerRegistry.Player;
         }
 
+        /// <summary>
+        /// Handles the full challenge sequence: player lock, exclamation, movement, facing, and interaction.
+        /// </summary>
         private IEnumerator ChallengeSequence(Character player)
         {
-            var playerController = player.GetComponent<CharacterStateController>();
+            CharacterStateController playerController = player.GetComponent<CharacterStateController>();
 
             // Reset player to idle to avoid accidental movement this frame
             playerController.CancelToIdle();
@@ -114,16 +134,37 @@ namespace MonsterTamer.Characters.Trainers
 
             AudioManager.Instance.PlayBGM(trainerTriggerClip);
 
-            // Show exclamation
+            // Show exclamation icon above trainer
+            yield return ShowExclamation();
+
+            // Move trainer toward the player
+            yield return MoveTowardPlayer(player);
+
+            // Face the player and trigger the interaction
+            playerController.Reface(controller.FacingDirection.Opposite());
+            trainerInteractable.Interact(player);
+        }
+
+        /// <summary>
+        /// Shows the exclamation mark above the trainer for a short duration.
+        /// </summary>
+        private IEnumerator ShowExclamation()
+        {
             exclamationIcon.gameObject.SetActive(true);
             yield return new WaitForSeconds(ExclamationDuration);
             exclamationIcon.gameObject.SetActive(false);
+        }
 
-            // Move toward player
+        /// <summary>
+        /// Moves the trainer one tile toward the player while respecting movement rules.
+        /// </summary>
+        private IEnumerator MoveTowardPlayer(Character player)
+        {
             Vector2Int targetTile = Vector2Int.RoundToInt(player.transform.position) - controller.FacingDirection.ToVector2Int();
             InputDirection moveDir = controller.FacingDirection.ToInputDirection();
 
-            while (Vector2Int.RoundToInt(transform.position) != targetTile && controller.TileMover.CanMoveInDirection(controller.FacingDirection))
+            while (Vector2Int.RoundToInt(transform.position) != targetTile &&
+                   controller.TileMover.CanMoveInDirection(controller.FacingDirection))
             {
                 trainerInput.ForcedDirection = moveDir;
                 yield return null;
@@ -131,10 +172,6 @@ namespace MonsterTamer.Characters.Trainers
 
             trainerInput.ForcedDirection = InputDirection.None;
             yield return new WaitUntil(() => !controller.TileMover.IsMoving);
-
-            // Face player & trigger interaction
-            playerController?.Reface(controller.FacingDirection.Opposite());
-            trainerInteractable.Interact(player);
         }
 
         private void OnDrawGizmos()

@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenuScene.unity
     guid: 672642bcfbb23014b926753ce15aedfb
   - enabled: 1
-    path: Assets/Scenes/Maps/DarkForestScene.unity
+    path: Assets/Scenes/ForestScene.unity
     guid: 97d013d6bf7ab0640a31d47cc4e3d602
   - enabled: 1
     path: Assets/Scenes/GameCoreScene.unity
