@@ -97,3 +97,15 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+
+# --- PROTECT PAID ASSETS (EULA Compliance) ---
+/[Aa]ssets/[Aa]rts/
+/[Aa]ssets/[Aa]udio/
+
+# Ignore common media just in case they are elsewhere
+*.wav
+*.mp3
+*.ogg
+*.png
+*.jpg
