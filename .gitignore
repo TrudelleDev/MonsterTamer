@@ -18,6 +18,23 @@
 !/[Pp]ackages/manifest.json
 !/[Pp]ackages/packages-lock.json
 
+/[Aa]ssets/config/
+/[Aa]ssets/sysinfo.txt
+
+# OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# IDEs
+.idea/
+.vscode/
+
+
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1
 *.blend1.meta
@@ -108,10 +125,12 @@ InitTestScene*.unity*
 # --- PROTECT PAID ASSETS (EULA Compliance) ---
 /[Aa]ssets/[Aa]rts/
 /[Aa]ssets/[Aa]udio/
-
-# Ignore common media just in case they are elsewhere
+*.unitypackage
 *.wav
 *.mp3
 *.ogg
 *.png
 *.jpg
+*.jpeg
+*.fbx
+*.obj
