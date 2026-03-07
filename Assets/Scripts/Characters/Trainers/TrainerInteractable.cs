@@ -39,22 +39,18 @@ namespace MonsterTamer.Characters.Trainers
             this.player = player;
             playerStateController = player.GetComponent<CharacterStateController>();
 
-            FacePlayer();
+            // Reface the trainer to the player
+            trainerStateController.Reface(playerStateController.FacingDirection.Opposite());
 
             if (TryTriggerVision()) return;
 
             if (HasBattled)
             {
-                ShowPostBattleDialogue();
+                ShowPostEventDialogue();
                 return;
             }
 
-            StartPreBattleDialogue();
-        }
-
-        private void FacePlayer()
-        {
-            trainerStateController.Reface(playerStateController.FacingDirection.Opposite());
+            StartDefaultInteractionDialogue();
         }
 
         private bool TryTriggerVision()
@@ -66,25 +62,29 @@ namespace MonsterTamer.Characters.Trainers
             return true;
         }
 
-        private void ShowPostBattleDialogue()
+        private void ShowPostEventDialogue()
         {
             var dialogueView = ViewManager.Instance.Get<DialogueView>();
             dialogueView.ShowConversational(trainer.Definition.PostEventDialogue);
         }
 
-        private void StartPreBattleDialogue()
+        private void StartDefaultInteractionDialogue()
         {
             playerStateController.LockMovement();
 
             var dialogueView = ViewManager.Instance.Get<DialogueView>();
-            dialogueView.DialogueFinished += OnPreBattleDialogueFinished;
+            dialogueView.DialogueFinished += OnDefaultInteractionDialogueFinished;
             dialogueView.ShowConversational(trainer.Definition.DefaultInteractionDialogue);
         }
 
-        private void OnPreBattleDialogueFinished()
+        private void OnDefaultInteractionDialogueFinished()
         {
             var dialogueView = ViewManager.Instance.Get<DialogueView>();
-            dialogueView.DialogueFinished -= OnPreBattleDialogueFinished;
+            dialogueView.DialogueFinished -= OnDefaultInteractionDialogueFinished;
+            playerStateController.UnlockMovement();
+
+            // Dont trigger Battle if the trainer has no monsters
+            if (trainer.Party.IsEmpty) return;
 
             BattleView battle = ViewManager.Instance.Show<BattleView>();
             battle.BattleViewClose += OnBattleFinished;

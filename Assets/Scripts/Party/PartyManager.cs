@@ -24,6 +24,7 @@ namespace MonsterTamer.Party
         internal int SelectedIndex => SelectedMonster != null ? members.IndexOf(SelectedMonster) : -1;
         internal IReadOnlyList<Monster> Members => members;
         internal bool HasAnyUsableMonster => members.Any(m => m.Health.CurrentHealth > 0);
+        internal bool IsEmpty => members.Count <= 0;
 
         internal PartyManager(PartyDefinition partyDefinition)
         {

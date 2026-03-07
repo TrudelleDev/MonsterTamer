@@ -2171,7 +2171,7 @@ MonoBehaviour:
   menuController: {fileID: 0}
   dialogueText: {fileID: 961955724}
   cursor: {fileID: 1675546900}
-  characterDelay: 0.05
+  characterDelay: 0.033
   audioSetting: {fileID: 11400000, guid: 5e9c76c71b5558d4484bbd2c27068881, type: 2}
 --- !u!223 &301234193
 Canvas:

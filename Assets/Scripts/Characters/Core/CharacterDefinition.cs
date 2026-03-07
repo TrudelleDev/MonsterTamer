@@ -32,15 +32,15 @@ namespace MonsterTamer.Characters.Core
         private InventoryDefinition inventoryDefinition;
 
         [BoxGroup("Dialogues")]
-        [SerializeField, TextArea, Tooltip("Default dialogue shown when talking to this character normally.")]
+        [SerializeField, TextArea(5,10), Tooltip("Default dialogue shown when talking to this character normally.")]
         private string defaultInteractionDialogue;
 
         [BoxGroup("Dialogues")]
-        [SerializeField, TextArea, Tooltip("Dialogue shown after a story event (e.g., trainer has been defeated).")]
+        [SerializeField, TextArea(5, 10), Tooltip("Dialogue shown after a story event (e.g., trainer has been defeated).")]
         private string postEventDialogue;
 
         [BoxGroup("Dialogues")]
-        [SerializeField, TextArea, Tooltip("Short dialogue shown immediately after a battle concludes.")]
+        [SerializeField, TextArea(5, 10), Tooltip("Short dialogue shown immediately after a battle concludes.")]
         private string postBattleClosingDialogue;
 
         internal string DisplayName => displayName;
