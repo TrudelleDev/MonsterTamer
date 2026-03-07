@@ -15,3 +15,5 @@ MonoBehaviour:
   items:
   - definition: {fileID: 11400000, guid: cd2bf49e6628ee842a5209200c3d3452, type: 2}
     quantity: 5
+  - definition: {fileID: 11400000, guid: d2722abfbf1d5e648a74d2d7c47fa2c1, type: 2}
+    quantity: 3

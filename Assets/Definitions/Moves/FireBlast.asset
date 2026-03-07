@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: FireBlast
   moveInfo:
-    power: 40
+    power: 60
     accuracy: 100
     powerPoint: 25
   classification:
     typeDefinition: {fileID: 11400000, guid: e9d851052d965b048912a5a2289d1133, type: 2}
     category: 1
   moveEffect: {fileID: 11400000, guid: fab21e12a6fc2224396406094f0f9bc3, type: 2}
-  effect: The foe is attacked with small flames. The foe may suffer a burn.
+  effect: Blasts the target with intense flames.
   sound: {fileID: 8300000, guid: 5cbd1c354fa6be1428c97d688c032ccc, type: 3}

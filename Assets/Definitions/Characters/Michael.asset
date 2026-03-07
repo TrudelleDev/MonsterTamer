@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 699602f04915b9f4596a5a9a33486432, type: 3}
-  m_Name: Joe
+  m_Name: Michael
   m_EditorClassIdentifier: 
-  displayName: Joe
-  battleSprite: {fileID: -561744759, guid: 4f72e175e5412cd47b1d97b9bf52fc3d, type: 3}
-  partyDefinition: {fileID: 11400000, guid: 2ee7da2e2d3880b4b9a4b2ee8929635f, type: 2}
+  displayName: Michael
+  battleSprite: {fileID: 878472127, guid: 4f72e175e5412cd47b1d97b9bf52fc3d, type: 3}
+  partyDefinition: {fileID: 11400000, guid: d0c04344dd4179343b0d605ef0d38d2d, type: 2}
   inventoryDefinition: {fileID: 0}
   defaultInteractionDialogue: Hey! A tamer like you should know the rules. Let's
     battle!

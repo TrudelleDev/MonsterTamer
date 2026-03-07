@@ -10,25 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de7b3c62737bd2940a7d695867a25ac0, type: 3}
-  m_Name: Leaflin
+  m_Name: 019_Sporeloom
   m_EditorClassIdentifier: 
-  displayName: Leaflin
-  codexNumber: 4
+  displayName: Sporeloom
+  codexNumber: 19
   typing:
     firstType: {fileID: 11400000, guid: dce2d6a87187447458f416b8ca1fd749, type: 2}
-    secondType: {fileID: 0}
+    secondType: {fileID: 11400000, guid: 7d3ababfd487d5d4b8f56b126fd68e66, type: 2}
   baseStats:
-    healthPoint: 45
-    attack: 49
-    defense: 49
-    specialAttack: 65
-    specialDefense: 65
-    speed: 45
+    healthPoint: 50
+    attack: 40
+    defense: 35
+    specialAttack: 25
+    specialDefense: 30
+    speed: 50
   possibleNatures: {fileID: 11400000, guid: 7d9e871d70f92ed48925b4ab36398143, type: 2}
   levelUpMoves:
-  - level: 4
+  - level: 1
     moveDefinition: {fileID: 11400000, guid: 81e967e928eae3043b461600c3646a2d, type: 2}
+  - level: 3
+    moveDefinition: {fileID: 11400000, guid: b7a0f30b035ca4c45978b4d8c0a690f1, type: 2}
   sprites:
-    frontSprite: {fileID: -1900053458, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
-    backSprite: {fileID: -1900053458, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
-    menuSprite: {fileID: 922126445, guid: e18f298d51fab3f4b95e6f8df790ce1a, type: 3}
+    frontSprite: {fileID: -677667009, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
+    backSprite: {fileID: -677667009, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
+    menuSprite: {fileID: 214420232, guid: e18f298d51fab3f4b95e6f8df790ce1a, type: 3}

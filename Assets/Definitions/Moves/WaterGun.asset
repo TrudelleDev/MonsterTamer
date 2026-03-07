@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8faac129f641cdb4a8297f0e296fc9a4, type: 3}
-  m_Name: Peck
+  m_Name: WaterGun
   m_EditorClassIdentifier: 
-  displayName: Peck
+  displayName: Water Gun
   moveInfo:
-    power: 40
+    power: 60
     accuracy: 100
-    powerPoint: 25
+    powerPoint: 30
   classification:
-    typeDefinition: {fileID: 11400000, guid: 919e73ff959ba794bbc045b570c50b5f, type: 2}
-    category: 0
+    typeDefinition: {fileID: 11400000, guid: 1859622edcd774e43923a56c4074437b, type: 2}
+    category: 1
   moveEffect: {fileID: 11400000, guid: fab21e12a6fc2224396406094f0f9bc3, type: 2}
-  effect: Pecks the target with a sharp beak.
-  sound: {fileID: 8300000, guid: 90be7bac430dfbd47989e790eb47cf95, type: 3}
+  effect: Shoots a jet of water at the target.
+  sound: {fileID: 8300000, guid: 92e8593513c2ffd4db42689b2d25268b, type: 3}

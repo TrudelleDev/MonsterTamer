@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9701ff764b27e44b25431f4e0ce2eb, type: 3}
+  m_Name: ForestMonsterEntries
+  m_EditorClassIdentifier: 
+  entries:
+  - definition: {fileID: 11400000, guid: fcb1a2183ece20646babb01d4dd0a216, type: 2}
+    minLevel: 3
+    maxLevel: 5
+    encounterRate: 40
+  - definition: {fileID: 11400000, guid: 21fe12aaf6e18e042aec117494f4cd80, type: 2}
+    minLevel: 3
+    maxLevel: 5
+    encounterRate: 40
+  - definition: {fileID: 11400000, guid: b265d3ed0e8a53347a38e0715aa9d3eb, type: 2}
+    minLevel: 5
+    maxLevel: 7
+    encounterRate: 5
+  - definition: {fileID: 11400000, guid: 11c4367c6cdc4084187370e4bfdf689d, type: 2}
+    minLevel: 3
+    maxLevel: 5
+    encounterRate: 40
+  - definition: {fileID: 11400000, guid: 766b4eccf3424664094722127d0f2b84, type: 2}
+    minLevel: 5
+    maxLevel: 7
+    encounterRate: 5

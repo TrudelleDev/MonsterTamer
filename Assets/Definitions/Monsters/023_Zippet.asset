@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de7b3c62737bd2940a7d695867a25ac0, type: 3}
-  m_Name: Peepin
+  m_Name: 023_Zippet
   m_EditorClassIdentifier: 
-  displayName: Peepin
-  codexNumber: 12
+  displayName: Zippet
+  codexNumber: 23
   typing:
     firstType: {fileID: 11400000, guid: 5a601fb978930454db43ed5be049233f, type: 2}
-    secondType: {fileID: 11400000, guid: 919e73ff959ba794bbc045b570c50b5f, type: 2}
+    secondType: {fileID: 0}
   baseStats:
-    healthPoint: 40
+    healthPoint: 35
     attack: 45
-    defense: 40
-    specialAttack: 40
-    specialDefense: 35
-    speed: 35
+    defense: 34
+    specialAttack: 35
+    specialDefense: 45
+    speed: 20
   possibleNatures: {fileID: 11400000, guid: 7d9e871d70f92ed48925b4ab36398143, type: 2}
   levelUpMoves:
   - level: 1
-    moveDefinition: {fileID: 11400000, guid: 1430cd0f059bc384f9436bbf80819014, type: 2}
+    moveDefinition: {fileID: 11400000, guid: f49ed7614022d7345b8f820a02864e98, type: 2}
   sprites:
-    frontSprite: {fileID: -737192903, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
-    backSprite: {fileID: -737192903, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
-    menuSprite: {fileID: -510323507, guid: e18f298d51fab3f4b95e6f8df790ce1a, type: 3}
+    frontSprite: {fileID: -1700894728, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
+    backSprite: {fileID: -1700894728, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}
+    menuSprite: {fileID: -2055675683, guid: e18f298d51fab3f4b95e6f8df790ce1a, type: 3}

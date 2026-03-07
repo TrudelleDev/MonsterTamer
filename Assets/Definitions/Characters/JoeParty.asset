@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4290ca961217c954a90d7ac8c46267c7, type: 3}
-  m_Name: ClaraParty
+  m_Name: JoeParty
   m_EditorClassIdentifier: 
   members:
-  - monsterDefinition: {fileID: 11400000, guid: 11c4367c6cdc4084187370e4bfdf689d, type: 2}
+  - monsterDefinition: {fileID: 11400000, guid: 7eefac71af774bc4c970d541106b8db1, type: 2}
     level: 3
-  - monsterDefinition: {fileID: 11400000, guid: 766b4eccf3424664094722127d0f2b84, type: 2}
+  - monsterDefinition: {fileID: 11400000, guid: 1fb586f630cb5494a82a67f972183a21, type: 2}
     level: 5
+  - monsterDefinition: {fileID: 11400000, guid: fb79b3fbf77bfe84e9a83a766067530a, type: 2}
+    level: 7

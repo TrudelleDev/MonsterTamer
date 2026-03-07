@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de7b3c62737bd2940a7d695867a25ac0, type: 3}
-  m_Name: Cindrake
+  m_Name: 004_Cindrake
   m_EditorClassIdentifier: 
   displayName: Cindrake
-  codexNumber: 1
+  codexNumber: 4
   typing:
     firstType: {fileID: 11400000, guid: e9d851052d965b048912a5a2289d1133, type: 2}
     secondType: {fileID: 0}
@@ -27,6 +27,8 @@ MonoBehaviour:
   possibleNatures: {fileID: 11400000, guid: 7d9e871d70f92ed48925b4ab36398143, type: 2}
   levelUpMoves:
   - level: 1
+    moveDefinition: {fileID: 11400000, guid: f49ed7614022d7345b8f820a02864e98, type: 2}
+  - level: 3
     moveDefinition: {fileID: 11400000, guid: 9e372a24d65448c41a319ef4adcc2f2d, type: 2}
   sprites:
     frontSprite: {fileID: 404585501, guid: e1f83455fed86cc4b92502be22ca2e09, type: 3}

@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47bd51a3fc4a03841a6c3b5ceeaaef7c, type: 3}
-  m_Name: ClaraPreBattleDialogue
+  m_Script: {fileID: 11500000, guid: 22ebb0cffd577c149aa02ef404ceb96b, type: 3}
+  m_Name: Grape
   m_EditorClassIdentifier: 
-  lines:
-  - "Oh! You have monsters too?  Let\u2019s battle!"
-  - " Let\u2019s battle!"
+  id: 1
+  displayName: Grape
+  icon: {fileID: 21300000, guid: 8f2575bfd91d71d4c8209cb162e63ce0, type: 3}
+  description: Restores 40 HP to a single monster.
+  healingAmount: 40
