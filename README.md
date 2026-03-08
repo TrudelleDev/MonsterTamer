@@ -3,7 +3,7 @@
 A 2D monster-taming RPG built with Unity, inspired by classic creature-collection games.  
 **Explore, battle, and collect creatures in a fully data-driven, state-driven system.**
 
-🎮 [Play Demo / Watch Gameplay](https://your-portfolio-site.com)
+🎮 [Watch Gameplay](https://trudelledev.github.io/)
 
 <img width="100%" alt="MonsterTamerBattle" src="https://github.com/user-attachments/assets/00b7f8cf-36fe-450a-87ff-1c66cd1fca4f" />
 
